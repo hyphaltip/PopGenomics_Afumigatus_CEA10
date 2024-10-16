@@ -1,9 +1,9 @@
 #!/bin/bash -l
-#SBATCH -N 1 -n 16 --mem 32gb --out logs/bwa.%a.log --time 8:00:00
-module load bwa
+#SBATCH -N 1 -c 16 -n 1 --mem 32gb --out logs/bwa.%a.log --time 8:00:00
+module load bwa-mem2
 module load samtools
 module load picard
-module load gatk/4
+module load gatk/4.6.0.0
 module load java
 module load workspace/scratch
 
@@ -42,7 +42,7 @@ if [ $N -gt $MAX ]; then
 fi
 
 IFS=,
-cat $SAMPFILE | sed -n ${N}p | while read STRAIN FILEBASE
+cat $SAMPFILE | tail -n +2 | sed -n ${N}p | while read STRAIN FILEBASE
 do
   PREFIX=$STRAIN
   FINALFILE=$ALNFOLDER/$STRAIN.$HTCEXT
@@ -69,7 +69,8 @@ do
           if [ -e $PAIR1 ]; then
             if [ ! -f $SRTED ]; then
               # potential switch this to bwa-mem2 for extra speed
-              bwa mem -t $CPU -R $READGROUP $REFGENOME $FASTQFOLDER/$BASEPATTERN | samtools sort --threads $CPU -O bam -o $SRTED -T $TEMP -
+              bwa-mem2 mem -t $CPU -R $READGROUP $REFGENOME $FASTQFOLDER/$BASEPATTERN | samtools sort --threads $CPU -O bam -o $SRTED -T $TEMP -
+              #bwa mem -t $CPU -R $READGROUP $REFGENOME $FASTQFOLDER/$BASEPATTERN | samtools sort --threads $CPU -O bam -o $SRTED -T $TEMP -
             fi
           else
             echo "Cannot find $BASEPATTERN, skipping $STRAIN"

@@ -1,1 +1,16 @@
 Strain,Filebase
+CEA10,SRA/SRR7418934_[12].fastq.gz
+CEA10-2,SRA/ERR232423_[12].fastq.gz;SRA/ERR232427_[12].fastq.gz
+CEA10-MCH,SRA/ERR232426_[12].fastq.gz;SRA/ERR232428_[12].fastq.gz
+CEA10_CramerSM,Cramer_SM/CEA10_S29_R?_001.fastq.gz
+CEA10_flat,CEA10_mixup/5373_002_CEA10flat_S51_R?_001.fastq.gz
+CBS144,CEA10_mixup/5373_003_CBS144_S52_R?_001.fastq.gz
+CEA10_NPK,CEA10_mixup/5373_004_NPK_S53_R?_001.fastq.gz
+SM12_R10,Cramer_SM/SM12_R10_S40_R?_001.fastq.gz
+SM12_R2,Cramer_SM/SM12_R2_S35_R?_001.fastq.gz
+SM12_R3,Cramer_SM/SM12_R3_S36_R?_001.fastq.gz
+SM12_R4,Cramer_SM/SM12_R4_S37_R?_001.fastq.gz
+SM12_R6,Cramer_SM/SM12_R6_S38_R?_001.fastq.gz
+SM12_R7,Cramer_SM/SM12_R7_S39_R?_001.fastq.gz
+akuBKU80,SRA/SRR7418932_[12].fastq.gz
+A1163,SRA/SRR068950_[12].fastq.gz

@@ -1,5 +1,5 @@
 #!/usr/bin/bash -l
-#SBATCH --mem 24G -N 1 -n 1 -c 2 -J slice.GVCFGeno --out logs/GVCFGenoGATK4.slice_%a.%A.log -a 1-8
+#SBATCH --mem 24G -N 1 -n 1 -c 2 -J slice.GVCFGeno --out logs/GVCFGenoGATK4.slice_%a.%A.log -a 1-81
 # might run on short queue if small enough
 # match array jobs (-a 1-4) to the number of chromosomes - if you have a lot then you can change the GVCF_INTERVAL in config.txt
 # and then can run in batches of 5, 10 etc to combine ranges to run through
@@ -7,7 +7,7 @@
 hostname
 MEM=24g
 module load picard
-module load gatk/4.4.0.0
+module load gatk/4.6.0.0
 module load bcftools
 module load parallel
 module load yq
@@ -150,7 +150,6 @@ do
 		--cluster-window-size 10  -filter "QD < 2.0" --filter-name QualByDepth \
 		-filter "SOR > 10.0" --filter-name StrandOddsRatio \
 		-filter "FS > 200.0" --filter-name FisherStrandBias \
-		-filter "InbreedingCoeff < -0.8" --filter-name InbreedCoef \
 		--create-output-variant-index false
 
 	#	-filter "ReadPosRankSum < -20.0" --filter-name ReadPosRank \

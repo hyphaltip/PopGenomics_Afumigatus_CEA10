@@ -1,8 +1,18 @@
 Populations:
 
   All:
-    - Sample_Example_1
-
-  PopA:
-    - Sample_Example_1
-    - Sample_Example_2
+    - CEA10
+    - CEA10-2
+    - CEA10-MCH
+    - CEA10_CramerSM
+    - CEA10_flat
+    - CEA10_NPK
+    - SM12_R10
+    - SM12_R2
+    - SM12_R3
+    - SM12_R4
+    - SM12_R6
+    - SM12_R7
+    - akuBKU80
+    - A1163
+    - CBS144

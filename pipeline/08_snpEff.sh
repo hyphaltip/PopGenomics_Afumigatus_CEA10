@@ -10,9 +10,6 @@ CPU=$SLURM_CPUS_ON_NODE
 if [ -z $CPU ]; then
   CPU=1
 fi
-# Fix this for your genome
-SNPEFFGENOME=Clusitianiae
-GFFGENOME=candida_lusitaniae_1_fixed.gff3
 TOPFOLDER=`pwd` # expecting to be run in top folder of the github checkout
 
 MEM=64g
@@ -21,7 +18,7 @@ if [ -f config.txt ]; then
 	source config.txt
 fi
 FASTAGENOMEFILE=$REFGENOME
-GFFGENOMEFILE=$GFFGENOME
+GFFGENOMEFILE=$GENOMEFOLDER/$GFFGENOME
 echo "GFF is $GFFGENOMEFILE"
 if [ -z $SNPEFFJAR ]; then
  echo "need to defined \$SNPEFFJAR in module or config.txt"
@@ -41,28 +38,16 @@ fi
 mkdir -p $SNPEFFOUT
 if [ ! -e $SNPEFFOUT/$snpEffConfig ]; then
 	rsync -a $SNPEFFDIR/snpEff.config $SNPEFFOUT/$snpEffConfig
-	echo "# Clusitaniae " >> $SNPEFFOUT/$snpEffConfig
-	if [ -z $NAME 
+	echo "# AfumCEA10 " >> $SNPEFFOUT/$snpEffConfig
   	echo "$SNPEFFGENOME.genome : $SNPEFFGENOME" >> $SNPEFFOUT/$snpEffConfig
 	echo "$FASTAGENOMEFILE"
 	chroms=$(grep '^>' $FASTAGENOMEFILE | perl -p -e 's/>//; s/\n/, /g' | perl -p -e 's/,\s+$/\n/')
 	echo -e "\t$SNPEFFGENOME.chromosomes: $chroms" >> $SNPEFFOUT/$snpEffConfig
 
-	# THIS WOULD NEED SPEIFIC FIX BY USER - IN A.fumigatus the MT contig is called mito_A_fumigatus_Af293
-	echo -e "\t$SNPEFFGENOME.Supercontig_1.1.codonTable : Alternative_Yeast_Nuclear" >> $SNPEFFOUT/$snpEffConfig
-	echo -e "\t$SNPEFFGENOME.Supercontig_1.2.codonTable : Alternative_Yeast_Nuclear" >> $SNPEFFOUT/$snpEffConfig
-	echo -e "\t$SNPEFFGENOME.Supercontig_1.3.codonTable : Alternative_Yeast_Nuclear" >> $SNPEFFOUT/$snpEffConfig
-	echo -e "\t$SNPEFFGENOME.Supercontig_1.4.codonTable : Alternative_Yeast_Nuclear" >> $SNPEFFOUT/$snpEffConfig
-	echo -e "\t$SNPEFFGENOME.Supercontig_1.5.codonTable : Alternative_Yeast_Nuclear" >> $SNPEFFOUT/$snpEffConfig
-	echo -e "\t$SNPEFFGENOME.Supercontig_1.6.codonTable : Alternative_Yeast_Nuclear" >> $SNPEFFOUT/$snpEffConfig
-	echo -e "\t$SNPEFFGENOME.Supercontig_1.7.codonTable : Alternative_Yeast_Nuclear" >> $SNPEFFOUT/$snpEffConfig
-	echo -e "\t$SNPEFFGENOME.Supercontig_1.8.codonTable : Alternative_Yeast_Nuclear" >> $SNPEFFOUT/$snpEffConfig
-	echo -e "\t$SNPEFFGENOME.MT_CBS_6936.codonTable : Mold_Mitochondrial" >> $SNPEFFOUT/$snpEffConfig
-
 	mkdir -p $SNPEFFOUT/data/$SNPEFFGENOME
 	pigz -c $GFFGENOMEFILE > $SNPEFFOUT/data/$SNPEFFGENOME/genes.gff.gz
 	rsync -aL $REFGENOME $SNPEFFOUT/data/$SNPEFFGENOME/sequences.fa
-	java -Xmx$MEM -jar $SNPEFFJAR build -datadir $TOPFOLDER/$SNPEFFOUT/data -c $SNPEFFOUT/$snpEffConfig -gff3 -noCheckCds -noCheckProtein -nodownload -v $SNPEFFGENOME
+	java -Xmx$MEM -jar $SNPEFFJAR build -datadir $TOPFOLDER/$SNPEFFOUT/data -c $SNPEFFOUT/$snpEffConfig -gff3 -nodownload -v $SNPEFFGENOME
 fi
 
 POPYAML=$(realpath $POPYAML)

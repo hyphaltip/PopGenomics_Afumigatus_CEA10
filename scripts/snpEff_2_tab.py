@@ -4,7 +4,7 @@ import vcf,re,gzip,os
 from Bio import SeqIO
 # this script will convert a VCF from snpEff into a useful table
 FLANK_LENGTH=10
-genome = "/bigdata/stajichlab/shared/projects/Afum_popgenome/variantcall/genome/FungiDB-39_AfumigatusAf293_Genome.fasta"
+genome = "/bigdata/stajichlab/shared/projects/Population_Genomics/Afumigatus_CEA10/genome/Aspergillus_fumigatus_CEA10.scaffolds.fa"
 if len(sys.argv) < 2:
         warnings.warn("Usage snpEff_to_table.py snpeff.vcf genome")
         sys.exit()
