@@ -1,5 +1,5 @@
 #!/usr/bin/bash -l
-#SBATCH --mem 24G -N 1 -n 1 -c 2 -J slice.GVCFGeno --out logs/GVCFGenoGATK4.slice_%a.%A.log -a 1-81
+#SBATCH --mem 24G -N 1 -n 1 -c 2 -J slice.GVCFGeno --out logs/GVCFGenoGATK4.slice_%a.%A.log -a 1-8
 # might run on short queue if small enough
 # match array jobs (-a 1-4) to the number of chromosomes - if you have a lot then you can change the GVCF_INTERVAL in config.txt
 # and then can run in batches of 5, 10 etc to combine ranges to run through
@@ -30,7 +30,7 @@ if [ -f config.txt ]; then
 fi
 TEMPDIR=$SCRATCH
 if [ ! -f $REFGENOME ]; then
-    module load samtools/1.11
+    module load samtools
     samtools faidx $REFGENOME
 fi
 NSTART=$(perl -e "printf('%d',1 + $GVCF_INTERVAL * ($N - 1))")
